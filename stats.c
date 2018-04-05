@@ -1,4 +1,3 @@
-//Something like nothing
 /******************************************************************************
  * Copyright (C) 2017 by Alex Fosdick - University of Colorado
  *
@@ -45,16 +44,32 @@ void main() {
 void print_statistics(char *array) {
 unsigned char median_numbers = (2 - (SIZE%2));
 unsigned char median_value[2] = {0,0};  //two members, because in case of even number of elements in arrat, we have two medians
+unsigned char sorted_array[SIZE];
 
+  printf("\r\n");
   printf("The array we calculate statistics for is: \r\n");
   print_array(array,SIZE);
   printf("The mean value for the unsorted array is: %d \r\n", find_mean(array,SIZE));
   printf("The median value for the unsorted array is: "); 
   find_median(array, SIZE, median_value);
   print_array(median_value,median_numbers);
-  printf("\r\n");
   printf("The maximum value for the unsorted array is: %d \r\n", find_maximum(array,SIZE));
   printf("The minimum value for the unsorted array is: %d \r\n", find_minimum(array,SIZE));
+
+  printf("\r\n");
+  printf("Sorting array with Bubble Sort ...\r\n");
+  sort_array(array, SIZE, sorted_array);
+  printf("\r\n");
+
+  printf("The sorted array is: \r\n");
+  print_array(sorted_array,SIZE);
+  printf("The mean value for the sorted array is: %d \r\n", find_mean(sorted_array,SIZE));
+  printf("The median value for the sorted array is: "); 
+  find_median(sorted_array, SIZE, median_value);
+  print_array(median_value,median_numbers);
+  printf("The maximum value for the sorted array is: %d \r\n", find_maximum(sorted_array,SIZE));
+  printf("The minimum value for the sorted array is: %d \r\n", find_minimum(sorted_array,SIZE));
+  printf("\r\n");
 }
 
 void print_array(unsigned char *array, unsigned char length) {
@@ -78,7 +93,7 @@ unsigned int find_mean(unsigned char *array, unsigned char length) {
   return result;
 }
 
-void find_median(unsigned char *array, char length, unsigned char *result) {
+void find_median(unsigned char *array, unsigned char length, unsigned char *result) {
   if((length%2) == 0) { //even number of array members
     result[0] = array[(length/2)-1];
     result[1] = array[(length/2)];
@@ -108,3 +123,21 @@ unsigned char find_minimum(unsigned char *array, unsigned char length) {
   }
   return result;
 }
+
+void sort_array(unsigned char *array, unsigned char length, unsigned char *result) {
+  unsigned char index = 0;
+  unsigned char loop = 0;
+
+  for(index = 0; index < length; index++) {
+    result[index] = array[index];  //make a copy of the array
+  }
+
+  for(loop = 1; loop < (length-1); loop++) {
+    for(index = 1; index <= (length-1); index++) {
+      if((result[index-1]) < (result[index])) {
+        swap((result[index-1]),(result[index]));  //swap macro defined in header file
+      }  //if
+    }  //for
+  }  //for
+}
+
